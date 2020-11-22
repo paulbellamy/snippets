@@ -1,6 +1,6 @@
 # Snippets
 
-Interview take-home test question for Stellar.
+Simple rest server to store expiring bits of text.
 
 ## Dependencies
 
