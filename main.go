@@ -14,10 +14,12 @@ import (
 type Config struct {
 	Stdout  io.Writer
 	BaseUrl string
+	DBUrl   string
 }
 
 func (c *Config) RegisterFlags(f *flag.FlagSet) {
 	flag.StringVar(&c.BaseUrl, "base-url", "http://localhost:3000", "base url to reach this service. For returning full urls to the client.")
+	flag.StringVar(&c.DBUrl, "db", "memory://", "url to reach the database, either memory:// or redis://user:password@redis-host:6379")
 	return
 }
 
@@ -32,7 +34,7 @@ func main() {
 }
 
 func Run(c Config) error {
-	s, err := snippets.NewStore()
+	s, err := snippets.NewStore(c.DBUrl)
 	if err != nil {
 		return err
 	}

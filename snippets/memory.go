@@ -72,4 +72,3 @@ func (s *MemoryStore) Close() error {
 	s.ticker.Stop()
 	return nil
 }
-

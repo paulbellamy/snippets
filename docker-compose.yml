@@ -2,5 +2,18 @@ version: "3.8"
 services:
   web:
     build: .
+    command: "-db redis://redis:6379"
     ports:
       - "3000:3000"
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+    command: "redis-server --appendonly yes"
+    ports:
+      - "6379:6379"
+    volumes:
+     - redis-data:/data
+
+volumes:
+  redis-data:

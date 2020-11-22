@@ -1,6 +1,8 @@
 package snippets
 
 import (
+	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -17,6 +19,17 @@ type Snippet struct {
 	Snippet   string        `json:"snippet"`
 }
 
-func NewStore() (Store, error) {
-	return NewMemoryStore()
+func NewStore(u string) (Store, error) {
+	parsed, err := url.Parse(u)
+	if err != nil {
+		return nil, err
+	}
+	switch parsed.Scheme {
+	case "memory":
+		return NewMemoryStore()
+	case "redis":
+		return NewRedisStore(u)
+	default:
+		return nil, fmt.Errorf("unknown db scheme: %s", parsed.Scheme)
+	}
 }
