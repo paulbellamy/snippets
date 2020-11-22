@@ -9,9 +9,11 @@ import (
 )
 
 type Config struct {
+	BaseUrl string
 }
 
 func (c *Config) RegisterFlags(f *flag.FlagSet) {
+	flag.StringVar(&c.BaseUrl, "base-url", "http://localhost:3000", "base url to reach this service. For returning full urls to the client.")
 	return
 }
 
@@ -26,7 +28,7 @@ func main() {
 }
 
 func Run(c Config) error {
-	server := rest.NewServer()
-	log.Println("server listening:", "http://localhost:3000")
+	server := rest.NewServer(c.BaseUrl)
+	log.Println("server listening:", c.BaseUrl)
 	return http.ListenAndServe(":3000", server)
 }
