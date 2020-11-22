@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/paulbellamy/snippets/rest"
+	"github.com/paulbellamy/snippets/snippets"
 )
 
 type Config struct {
@@ -28,7 +29,13 @@ func main() {
 }
 
 func Run(c Config) error {
-	server := rest.NewServer(c.BaseUrl)
+	s, err := snippets.NewStore()
+	if err != nil {
+		return err
+	}
+	defer s.Close()
+
+	server := rest.NewServer(c.BaseUrl, s)
 	log.Println("server listening:", c.BaseUrl)
 	return http.ListenAndServe(":3000", server)
 }

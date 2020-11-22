@@ -48,7 +48,7 @@ curl http://localhost:3000/snippets/recipe
 
 ## Todo
 
-- [ ] store snippets
+- [x] store snippets
 - [ ] retrieve snippets
 - [ ] expire snippets
 - [ ] reset expiry when retrieving snippets
