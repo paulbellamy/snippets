@@ -52,9 +52,9 @@ curl http://localhost:3000/snippets/recipe
 - [x] retrieve snippets
 - [x] expire snippets
 - [x] reset expiry when retrieving snippets
+- [x] logging
 - [ ] Add tests
-- [ ] Either handle tls, or put this behind a tls proxy.
-- [ ] Structured logging
 - [ ] Return an HTTP 413 error if body is longer than 1mb.
+- [ ] Either handle tls, or put this behind a tls proxy.
 - [ ] authentication
 - [ ] rate-limiting

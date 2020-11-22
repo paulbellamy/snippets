@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/paulbellamy/snippets/snippets"
 )
@@ -17,10 +18,10 @@ type Server struct {
 	snippets snippets.Store
 }
 
-func NewServer(baseUrl string, snippetStore snippets.Store) *Server {
+func NewServer(stdout io.Writer, baseUrl string, snippetStore snippets.Store) *Server {
 	r := mux.NewRouter()
 	s := &Server{
-		Handler:  r,
+		Handler:  handlers.LoggingHandler(stdout, r),
 		baseUrl:  baseUrl,
 		snippets: snippetStore,
 	}

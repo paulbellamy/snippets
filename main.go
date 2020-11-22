@@ -2,14 +2,17 @@ package main
 
 import (
 	"flag"
+	"io"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/paulbellamy/snippets/rest"
 	"github.com/paulbellamy/snippets/snippets"
 )
 
 type Config struct {
+	Stdout  io.Writer
 	BaseUrl string
 }
 
@@ -19,7 +22,7 @@ func (c *Config) RegisterFlags(f *flag.FlagSet) {
 }
 
 func main() {
-	c := Config{}
+	c := Config{Stdout: os.Stdout}
 	c.RegisterFlags(flag.CommandLine)
 	flag.Parse()
 
@@ -35,7 +38,7 @@ func Run(c Config) error {
 	}
 	defer s.Close()
 
-	server := rest.NewServer(c.BaseUrl, s)
+	server := rest.NewServer(c.Stdout, c.BaseUrl, s)
 	log.Println("server listening:", c.BaseUrl)
 	return http.ListenAndServe(":3000", server)
 }
