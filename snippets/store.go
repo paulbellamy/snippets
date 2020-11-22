@@ -31,17 +31,19 @@ func NewStore() (Store, error) {
 type MemoryStore struct {
 	snippets map[string]*Snippet
 	ticker   *time.Ticker
-	sync.RWMutex
+	sync.Mutex
 }
 
 func (s *MemoryStore) Load(name string) (*Snippet, error) {
-	s.RLock()
-	defer s.RUnlock()
+	s.Lock()
+	defer s.Unlock()
 	el, ok := s.snippets[name]
 	if !ok || time.Now().After(el.ExpiresAt) {
 		// nil, nil will mean not found.
 		return nil, nil
 	}
+	// Reset the ttl when we read it.
+	el.ExpiresAt = time.Now().Add(el.ExpiresIn)
 	return el, nil
 }
 
