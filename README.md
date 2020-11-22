@@ -49,7 +49,7 @@ curl http://localhost:3000/snippets/recipe
 ## Todo
 
 - [x] store snippets
-- [ ] retrieve snippets
+- [x] retrieve snippets
 - [ ] expire snippets
 - [ ] reset expiry when retrieving snippets
 - [ ] Add tests

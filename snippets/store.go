@@ -31,8 +31,14 @@ type MemoryStore struct {
 }
 
 func (s *MemoryStore) Load(name string) (*Snippet, error) {
-	// both nil will mean, not found
-	return nil, nil
+	s.RLock()
+	defer s.RUnlock()
+	el, ok := s.snippets[name]
+	if !ok || time.Now().After(el.ExpiresAt) {
+		// nil, nil will mean not found.
+		return nil, nil
+	}
+	return el, nil
 }
 
 func (s *MemoryStore) Store(name, value string, expiresIn time.Duration) (*Snippet, error) {
