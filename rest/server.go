@@ -37,7 +37,7 @@ func (s *Server) postSnippet(w http.ResponseWriter, r *http.Request) {
 	// TODO: Nicer http error 413 when we hit the body size limit. We could check
 	// Content-Length, but that wouldn't handle chunked encoding where the
 	// body-size is unknown.
-	body := LimitReader(r.Body, 1024)
+	body := io.LimitReader(r.Body, 1024)
 
 	var input snippets.Snippet
 	err := json.NewDecoder(body).Decode(&input)
