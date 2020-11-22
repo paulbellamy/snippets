@@ -50,7 +50,7 @@ curl http://localhost:3000/snippets/recipe
 
 - [x] store snippets
 - [x] retrieve snippets
-- [ ] expire snippets
+- [x] expire snippets
 - [ ] reset expiry when retrieving snippets
 - [ ] Add tests
 - [ ] Either handle tls, or put this behind a tls proxy.
