@@ -43,9 +43,14 @@ func (s *Server) postSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: validate the input
-	// - name should not be blank
-	// - expiresIn should be postive (and less than some max)
+	if input.Name == "" {
+		http.Error(w, "'name' cannot be blank", http.StatusBadRequest)
+		return
+	}
+	if input.ExpiresIn <= 0 || input.ExpiresIn > 3600 {
+		http.Error(w, "'expires_in' must be between 1-3600 ", http.StatusBadRequest)
+		return
+	}
 
 	stored, err := s.snippets.Store(input.Name, input.Snippet, input.ExpiresIn*time.Second)
 	if err != nil {
