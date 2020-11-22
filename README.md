@@ -50,16 +50,22 @@ curl http://localhost:3000/snippets/recipe
 
 ## Design Decisions
 
-- For persistence I've chosen Redis. No point to reinvent our own persistence
-    format for this exercies, and I'm familiar with redis. More importantly, it
+- For persistence I've chosen Redis. No point in reinventing our own persistence
+    format for this exercise. I'm familiar with redis, but more importantly, it
     has built-in expiry for keys. So, implementing this with it is really
     straightforward, and doesn't need our own garbage-collector implementation.
+    - I've left in the in-memory implementation for reference, or perhaps unit
+        tests.
+        To see that you could run:
+        ```sh
+        go run . -db "memory://"
+        ```
 - Error handling is pretty basic. Where appropriate I've returned it to the user
     in the http response. Otherwise I've logged and masked it with HTTP 500, to
     avoid leaking implementation details to the user.
-- There's a bunch of other stuff to do, to get it production ready, but some of
-    it is dependent on the deployment environment, (e.g. TLS, auth,
-    rate-limiting), so I've left that off (also time-limits).
+- There's a bunch of other stuff to do, to get it production ready (see below
+    Todo list), but some of it is dependent on the deployment environment, (e.g.
+    TLS, auth, rate-limiting), so I've left that off (also time-limits).
 - It would be great to have unit tests, but I've left them off as well due to
     time.
 
